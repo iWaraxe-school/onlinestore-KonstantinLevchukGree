@@ -27,9 +27,7 @@ public class Category {
     public void printCategory() {
         System.out.println(name + ":");
         for (Product product : productList) {
-            product.getName();
-            product.getRate();
-            product.getPrice();
+            product.printProduct();
         }
     }
 }

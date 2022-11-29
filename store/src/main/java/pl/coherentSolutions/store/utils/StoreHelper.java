@@ -1,13 +1,9 @@
 package pl.coherentSolutions.store.utils;
 
-import org.reflections.scanners.SubTypesScanner;
+import org.reflections.Reflections;
 import pl.coherentSolutions.domain.Category;
-import pl.coherentSolutions.domain.categories.Bike;
-import pl.coherentSolutions.domain.categories.Milk;
-import pl.coherentSolutions.domain.categories.Phone;
 import pl.coherentSolutions.products.Product;
 import pl.coherentSolutions.store.Store;
-import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -36,11 +32,10 @@ public class StoreHelper {
                         populator.getProductRate());
                 entry.getKey().addProduct(product);
             }
-            this.store.getCategoryList().add(entry.getKey());
+            this.store.addCategoryToStore(entry.getKey());
         }
     }
 
-    // reflections
     private static Map<Category, Integer> createProductListToAdd() {
         Map<Category, Integer> productToAdd = new HashMap<>();
 
@@ -51,14 +46,13 @@ public class StoreHelper {
 
             try {
                 Random random = new Random();
-                productToAdd.put(type.getConstructor().newInstance(), random.nextInt(10));
+                productToAdd.put(type.getConstructor().newInstance(), random.nextInt(10)+1);
 
             } catch (InstantiationException | NoSuchMethodException | InvocationTargetException |
                      IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
         }
-
         return productToAdd;
     }
 }

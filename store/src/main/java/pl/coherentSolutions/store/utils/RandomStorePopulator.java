@@ -3,9 +3,7 @@ package pl.coherentSolutions.store.utils;
 import com.github.javafaker.Faker;
 
 public class RandomStorePopulator {
-    private Faker faker = new Faker();
-    public RandomStorePopulator() {
-    }
+    private final Faker faker = new Faker();
 
     public String getProductName(String categoryName) {
         switch (categoryName) {

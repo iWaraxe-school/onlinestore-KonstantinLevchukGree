@@ -9,7 +9,5 @@ public class StoreApp {
         StoreHelper helper = new StoreHelper(store);
         helper.fillStoreRandomly();
         store.printStore();
-
-        int a = 0;
     }
 }
