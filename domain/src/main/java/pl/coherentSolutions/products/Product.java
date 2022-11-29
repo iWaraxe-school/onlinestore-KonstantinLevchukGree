@@ -24,4 +24,11 @@ public class Product {
     public double getPrice() {
         return price;
     }
+
+
+//Check
+    @Override
+    public String toString() {
+        return String.format("Product name: , Product price: , Product rate: ",name,rate,price);
+    }
 }
