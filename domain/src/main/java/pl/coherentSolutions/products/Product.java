@@ -25,10 +25,10 @@ public class Product {
         return price;
     }
 
-
-//Check
     @Override
     public String toString() {
-        return String.format("Product name: , Product price: , Product rate: ",name,rate,price);
+        return String.format("Product name: " + getName()
+                + "   Rate: " + getRate()
+                + "   Price: " + getPrice());
     }
 }

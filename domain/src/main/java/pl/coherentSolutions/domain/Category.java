@@ -6,15 +6,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Category {
-    private String categoryName;
+    private final String name;
     private List<Product> productList;
 
-    public Category(String categoryName) {
-        this.categoryName = categoryName;
+    public Category(String name) {
+        this.name = name;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public String getName() {
+        return name;
     }
 
     public void addProduct(Product product) {
@@ -23,4 +23,6 @@ public class Category {
         }
         productList.add(product);
     }
+
+    public void printAllProduct(){};
 }
