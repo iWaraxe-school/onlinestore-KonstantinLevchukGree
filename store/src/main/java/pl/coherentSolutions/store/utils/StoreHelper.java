@@ -46,7 +46,7 @@ public class StoreHelper {
 
             try {
                 Random random = new Random();
-                productToAdd.put(type.getConstructor().newInstance(), random.nextInt(10)+1);
+                productToAdd.put(type.getConstructor().newInstance(), random.nextInt(10) + 1);
 
             } catch (InstantiationException | NoSuchMethodException | InvocationTargetException |
                      IllegalAccessException e) {

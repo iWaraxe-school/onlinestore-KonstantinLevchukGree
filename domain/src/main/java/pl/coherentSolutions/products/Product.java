@@ -24,6 +24,11 @@ public class Product {
         return price;
     }
 
+    @Override
+    public String toString() {
+        return String.format("Product name: '%s', Product rate: '%s', Product price: '%s'", name, rate, price);
+    }
+
     public void printProduct() {
         System.out.println("Name: " + getName() + ";  " +
                 "Price: " + getPrice() + ";  " +
