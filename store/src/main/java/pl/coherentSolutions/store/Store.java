@@ -15,4 +15,11 @@ public class Store {
     public List<Category> getCategoryList() {
         return categoryList;
     }
+
+    public void printStore(){
+        System.out.println("My online store");
+        for (Category category:categoryList) {
+            category.printCategory();
+        }
+    }
 }

@@ -1,14 +1,19 @@
 package pl.coherentSolutions.store.utils;
 
+import org.reflections.scanners.SubTypesScanner;
 import pl.coherentSolutions.domain.Category;
 import pl.coherentSolutions.domain.categories.Bike;
 import pl.coherentSolutions.domain.categories.Milk;
 import pl.coherentSolutions.domain.categories.Phone;
 import pl.coherentSolutions.products.Product;
 import pl.coherentSolutions.store.Store;
+import org.reflections.Reflections;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 public class StoreHelper {
     Store store;
@@ -17,7 +22,6 @@ public class StoreHelper {
         this.store = store;
     }
 
-    //video 03.oop.solutions.reflections.01(HDReady)
     public void fillStoreRandomly() {
 
         RandomStorePopulator populator = new RandomStorePopulator();
@@ -38,10 +42,23 @@ public class StoreHelper {
 
     // reflections
     private static Map<Category, Integer> createProductListToAdd() {
-        Map<Category, Integer> newCategoryMap = new HashMap<>();
-        newCategoryMap.put(new Bike(), 15);
-        newCategoryMap.put(new Milk(), 15);
-        newCategoryMap.put(new Phone(), 15);
-        return newCategoryMap;
+        Map<Category, Integer> productToAdd = new HashMap<>();
+
+        Reflections reflections = new Reflections("pl.coherentSolutions.domain.categories");
+        Set<Class<? extends Category>> subTypes = reflections.getSubTypesOf(Category.class);
+
+        for (Class<? extends Category> type : subTypes) {
+
+            try {
+                Random random = new Random();
+                productToAdd.put(type.getConstructor().newInstance(), random.nextInt(10));
+
+            } catch (InstantiationException | NoSuchMethodException | InvocationTargetException |
+                     IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return productToAdd;
     }
 }
