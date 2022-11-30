@@ -1,7 +1,6 @@
 package pl.coherentSolutions.products;
 
 public class Product {
-
     private final String name;
     private final double rate;
     private final double price;
@@ -23,5 +22,16 @@ public class Product {
 
     public double getPrice() {
         return price;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Product name: '%s', Product rate: '%s', Product price: '%s'", name, rate, price);
+    }
+
+    public void printProduct() {
+        System.out.println("Name: " + getName() + ";  " +
+                "Price: " + getPrice() + ";  " +
+                "Rate: " + getRate() + ";");
     }
 }
