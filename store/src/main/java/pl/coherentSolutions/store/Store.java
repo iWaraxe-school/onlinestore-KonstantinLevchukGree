@@ -6,10 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Store {
+
+
     private final List<Category> categoryList;
 
     public Store() {
         categoryList = new ArrayList<>();
+    }
+
+    public List<Category> getCategoryList() {
+        return categoryList;
     }
 
     public void addCategoryToStore(Category category) {
