@@ -1,12 +1,13 @@
 package pl.coherentSolutions.store;
 
 import pl.coherentSolutions.domain.Category;
+import pl.coherentSolutions.products.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Store {
-
 
     private final List<Category> categoryList;
 
@@ -20,6 +21,12 @@ public class Store {
 
     public void addCategoryToStore(Category category) {
         categoryList.add(category);
+    }
+
+    public List<Product> getAllProducts() {
+        return categoryList.stream()
+                .flatMap(category -> category.getProductList().stream())
+                .collect(Collectors.toList());
     }
 
     public void printStore() {

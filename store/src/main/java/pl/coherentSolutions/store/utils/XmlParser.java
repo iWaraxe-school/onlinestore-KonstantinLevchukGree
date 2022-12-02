@@ -5,6 +5,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import org.yaml.snakeyaml.introspector.PropertyUtils;
+import pl.coherentSolutions.store.constant.XmlKey;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -12,21 +14,23 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Properties;
 
 public class XmlParser {
 
+    private static final Properties xmlPath = PropertyUtil.getProperties("xmlPath.properties");
+
     public Map<String, String> getSortConfigFromXml() {
-        String sortTag = "sort";
         Map<String, String> configMap = new LinkedHashMap<>();
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = null;
         try {
             builder = factory.newDocumentBuilder();
-            String pathToConfigFile = "store/src/main/resources/config.xml";
+            String pathToConfigFile = xmlPath.getProperty("pathXml");
             Document document = builder.parse(pathToConfigFile);
 
-            Node node = document.getElementsByTagName(sortTag).item(0);
+            Node node = document.getElementsByTagName(XmlKey.tag).item(XmlKey.indexTag);
             NodeList nodeList = node.getChildNodes();
 
             for (int i = 0; i < nodeList.getLength(); i++) {
