@@ -9,6 +9,7 @@ import pl.coherentSolutions.store.utils.comporators.RateComparator;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class SortHelper {
     Store store;
@@ -61,5 +62,11 @@ public class SortHelper {
         Map<String, String> configMap = parser.getSortConfigFromXml();
         System.out.println(configMap);
         return sortedProductList(configMap, value);
+    }
+
+    public List<Product> topExpensiveProduct(int amount) {
+        List<Product> allProduct = store.getAllProducts();
+        allProduct.sort(new PriceComparator().reversed());
+        return allProduct.stream().limit(amount).collect(Collectors.toList());
     }
 }

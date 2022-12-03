@@ -20,5 +20,9 @@ public class StoreApp {
         SortHelper sortHelper = new SortHelper(store);
         List<Product> sorted = sortHelper.sortByXml(SortKey.NAME.getKey());
         sorted.forEach(System.out::println);
+
+        System.out.println("--------------------------------------------------------");
+        List<Product> topExpensiveProduct = sortHelper.topExpensiveProduct(5);
+        topExpensiveProduct.forEach(System.out::println);
     }
 }
