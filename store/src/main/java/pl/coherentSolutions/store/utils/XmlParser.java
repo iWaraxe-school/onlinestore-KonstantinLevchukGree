@@ -5,7 +5,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import org.yaml.snakeyaml.introspector.PropertyUtils;
 import pl.coherentSolutions.store.constant.XmlKey;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -30,7 +29,7 @@ public class XmlParser {
             String pathToConfigFile = xmlPath.getProperty("pathXml");
             Document document = builder.parse(pathToConfigFile);
 
-            Node node = document.getElementsByTagName(XmlKey.tag).item(XmlKey.indexTag);
+            Node node = document.getElementsByTagName(XmlKey.TAG).item(XmlKey.INDEX_TAG);
             NodeList nodeList = node.getChildNodes();
 
             for (int i = 0; i < nodeList.getLength(); i++) {

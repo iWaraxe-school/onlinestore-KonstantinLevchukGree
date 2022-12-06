@@ -13,5 +13,4 @@ public enum SortKey {
     public String getKey() {
         return getKey;
     }
-
 }

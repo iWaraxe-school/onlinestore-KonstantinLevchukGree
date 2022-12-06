@@ -2,16 +2,15 @@ package pl.coherentSolutions.store.utils;
 
 import pl.coherentSolutions.products.Product;
 import pl.coherentSolutions.store.Store;
-import pl.coherentSolutions.store.utils.comporators.NameComparator;
-import pl.coherentSolutions.store.utils.comporators.PriceComparator;
-import pl.coherentSolutions.store.utils.comporators.RateComparator;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static pl.coherentSolutions.store.constant.XmlKey.asc;
-import static pl.coherentSolutions.store.constant.XmlKey.desc;
+import static pl.coherentSolutions.store.constant.XmlKey.ASC;
+import static pl.coherentSolutions.store.constant.XmlKey.DESC;
 
 public class SortHelper {
     Store store;
@@ -24,33 +23,35 @@ public class SortHelper {
         this.store = store;
     }
 
-    public List<Product> sortedProductList(Map<String, String> sortConfigFromXml, String value) {
+    public List<Product> sortedProductList() {
         List<Product> allProduct = store.getAllProducts();
+        Map<String, String> sortConfigFromXml = sortByXml();
+        List<Comparator<Product>> comparatorList = new ArrayList<>();
         for (Map.Entry<String, String> entry : sortConfigFromXml.entrySet()) {
-            switch (value) {
+            switch (entry.getKey()) {
                 case "name":
-                    if (entry.getValue().equals(asc)) {
-                        allProduct.sort(new NameComparator());
-                    } else if (entry.getValue().equals(desc)) {
-                        allProduct.sort(new NameComparator().reversed());
+                    if (entry.getValue().equals(ASC)) {
+                        comparatorList.add(Comparator.comparing(Product::getName, String::compareToIgnoreCase));
+                    } else if (entry.getValue().equals(DESC)) {
+                        comparatorList.add(Comparator.comparing(Product::getName, String::compareToIgnoreCase).reversed());
                     } else {
                         throw new IllegalStateException("Sort value is not in the file XML");
                     }
                     break;
                 case "price":
-                    if (entry.getValue().equals(asc)) {
-                        allProduct.sort(new PriceComparator());
-                    } else if (entry.getValue().equals(desc)) {
-                        allProduct.sort(new PriceComparator().reversed());
+                    if (entry.getValue().equals(ASC)) {
+                        comparatorList.add(Comparator.comparing(Product::getPrice));
+                    } else if (entry.getValue().equals(DESC)) {
+                        comparatorList.add(Comparator.comparing(Product::getPrice).reversed());
                     } else {
                         throw new IllegalStateException("Sort value is not in the file XML");
                     }
                     break;
                 case "rate":
-                    if (entry.getValue().equals(asc)) {
-                        allProduct.sort(new RateComparator());
-                    } else if (entry.getValue().equals(desc)) {
-                        allProduct.sort(new RateComparator().reversed());
+                    if (entry.getValue().equals(ASC)) {
+                        comparatorList.add(Comparator.comparing(Product::getRate));
+                    } else if (entry.getValue().equals(DESC)) {
+                        comparatorList.add(Comparator.comparing(Product::getRate).reversed());
                     } else {
                         throw new IllegalStateException("Sort value is not in the file XML");
                     }
@@ -59,18 +60,26 @@ public class SortHelper {
                     throw new IllegalStateException("Unexpected sorting value");
             }
         }
+        allProduct.sort(getGeneralComparator(comparatorList));
         return allProduct;
     }
 
-    public List<Product> sortByXml(String value) {
+    private Comparator<Product> getGeneralComparator(List<Comparator<Product>> comparatorList) {
+        Comparator<Product> generalComparator = comparatorList.get(0);
+        for (int i = 1; i < comparatorList.size(); i++) {
+            generalComparator.thenComparing(comparatorList.get(i));
+        }
+        return generalComparator;
+    }
+
+    private Map<String, String> sortByXml() {
         XmlParser parser = new XmlParser();
-        Map<String, String> configMap = parser.getSortConfigFromXml();
-        return sortedProductList(configMap, value);
+        return parser.getSortConfigFromXml();
     }
 
     public List<Product> topExpensiveProduct(int amount) {
         List<Product> allProduct = store.getAllProducts();
-        allProduct.sort(new PriceComparator().reversed());
+        allProduct.sort(Comparator.comparing(Product::getPrice).reversed());
         return allProduct.stream().limit(amount).collect(Collectors.toList());
     }
 

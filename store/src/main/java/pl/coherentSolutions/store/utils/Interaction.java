@@ -24,7 +24,7 @@ public class Interaction {
             switch (command) {
                 case "sort":
                     printLabelSort();
-                    List<Product> sorted = sortHelper.sortByXml(scanner.nextLine());
+                    List<Product> sorted = sortHelper.sortedProductList();
                     sortHelper.printListProduct(sorted);
                     printInfo();
                     break;
