@@ -24,6 +24,11 @@ public class Category {
         productList.add(product);
     }
 
+    public List<Product> getProductList (){
+        return productList;
+    }
+
+
     public void printCategory() {
         System.out.println(name + ":");
         for (Product product : productList) {

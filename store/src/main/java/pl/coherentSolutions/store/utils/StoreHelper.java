@@ -18,7 +18,7 @@ public class StoreHelper {
         this.store = store;
     }
 
-    public void fillStoreRandomly() {
+    public  void fillStoreRandomly() {
 
         RandomStorePopulator populator = new RandomStorePopulator();
         Map<Category, Integer> categoryProductsMapToAdd = createProductListToAdd();
