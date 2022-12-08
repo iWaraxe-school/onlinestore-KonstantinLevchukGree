@@ -8,7 +8,7 @@ import pl.coherentSolutions.store.utils.StoreHelper;
 public class StoreApp {
     public static void main(String[] args) {
 
-        Store store = new Store();
+        Store store = Store.getInstance();
 
         StoreHelper storeHelper = new StoreHelper(store);
         SortHelper sortHelper = new SortHelper(store);
