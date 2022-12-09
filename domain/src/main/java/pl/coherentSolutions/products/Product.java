@@ -1,15 +1,44 @@
 package pl.coherentSolutions.products;
 
 public class Product {
-    private final String name;
-    private final double price;
-    private final double rate;
+    private String name;
+    private double price;
+    private double rate;
 
+    //Builder
+    public static ProductBuilder newProductBuilder() {
+        return new Product().new ProductBuilder();
+    }
 
-    public Product(String name, double rate, double price) {
-        this.name = name;
-        this.price = price;
-        this.rate = rate;
+    public class ProductBuilder {
+        private String name;
+        private double price;
+        private double rate;
+
+        public ProductBuilder() {
+        }
+
+        public ProductBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public ProductBuilder setPrice(double price) {
+            this.price = price;
+            return this;
+        }
+
+        public ProductBuilder setRate(double rate) {
+            this.rate = rate;
+            return this;
+        }
+
+        public Product build() {
+            Product.this.name = this.name;
+            Product.this.price = this.price;
+            Product.this.rate = this.rate;
+            return Product.this;
+        }
     }
 
     public String getName() {

@@ -18,18 +18,18 @@ public class StoreHelper {
         this.store = store;
     }
 
-    public  void fillStoreRandomly() {
+    public void fillStoreRandomly() {
 
         RandomStorePopulator populator = new RandomStorePopulator();
         Map<Category, Integer> categoryProductsMapToAdd = createProductListToAdd();
 
         for (Map.Entry<Category, Integer> entry : categoryProductsMapToAdd.entrySet()) {
             for (int i = 0; i < entry.getValue(); i++) {
-
-                Product product = new Product(
-                        populator.getProductName(entry.getKey().getName()),
-                        populator.getProductPrice(),
-                        populator.getProductRate());
+                Product product = Product.newProductBuilder()
+                        .setName(populator.getProductName(entry.getKey().getName()))
+                        .setPrice(populator.getProductPrice())
+                        .setRate(populator.getProductRate())
+                        .build();
                 entry.getKey().addProduct(product);
             }
             this.store.addCategoryToStore(entry.getKey());
@@ -45,6 +45,7 @@ public class StoreHelper {
         for (Class<? extends Category> type : subTypes) {
 
             try {
+                //
                 Random random = new Random();
                 productToAdd.put(type.getConstructor().newInstance(), random.nextInt(10) + 1);
 
