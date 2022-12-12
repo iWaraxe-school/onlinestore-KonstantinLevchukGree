@@ -5,7 +5,7 @@ import pl.coherentSolutions.products.Product;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Category {
+public abstract class Category {
     private final String name;
     private List<Product> productList;
 

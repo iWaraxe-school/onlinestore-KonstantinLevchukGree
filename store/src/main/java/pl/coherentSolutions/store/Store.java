@@ -8,11 +8,25 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Store {
-
+    private static volatile Store instance;
     private final List<Category> categoryList;
 
-    public Store() {
+    private Store() {
         categoryList = new ArrayList<>();
+    }
+
+    //Singleton
+    public static Store getInstance() {
+        Store result = instance;
+        if (result != null) {
+            return result;
+        }
+        synchronized (Store.class) {
+            if (instance == null) {
+                instance = new Store();
+            }
+            return instance;
+        }
     }
 
     public List<Category> getCategoryList() {
