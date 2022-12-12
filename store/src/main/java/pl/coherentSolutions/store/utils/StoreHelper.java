@@ -6,10 +6,7 @@ import pl.coherentSolutions.products.Product;
 import pl.coherentSolutions.store.Store;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class StoreHelper {
     Store store;
@@ -20,40 +17,31 @@ public class StoreHelper {
 
     public void fillStoreRandomly() {
 
-        RandomStorePopulator populator = new RandomStorePopulator();
-        Map<Category, Integer> categoryProductsMapToAdd = createProductListToAdd();
+        Set<Category> categorySet = createProductListToAdd();
 
-        for (Map.Entry<Category, Integer> entry : categoryProductsMapToAdd.entrySet()) {
-            for (int i = 0; i < entry.getValue(); i++) {
-                Product product = Product.newProductBuilder()
-                        .setName(populator.getProductName(entry.getKey().getName()))
-                        .setPrice(populator.getProductPrice())
-                        .setRate(populator.getProductRate())
-                        .build();
-                entry.getKey().addProduct(product);
+        for (Category category : categorySet) {
+            Random random = new Random();
+            for (int i = 0; i < random.nextInt(10) + 1; i++) {
+                Product product = FactoryProduct.getProduct(category.getName());
+                category.addProduct(product);
             }
-            this.store.addCategoryToStore(entry.getKey());
+            this.store.addCategoryToStore(category);
         }
     }
-
-    private static Map<Category, Integer> createProductListToAdd() {
-        Map<Category, Integer> productToAdd = new HashMap<>();
+    private static Set<Category> createProductListToAdd() {
+        Set<Category> categoryToAdd = new HashSet<>();
 
         Reflections reflections = new Reflections("pl.coherentSolutions.domain.categories");
         Set<Class<? extends Category>> subTypes = reflections.getSubTypesOf(Category.class);
-
         for (Class<? extends Category> type : subTypes) {
-
             try {
-                //
-                Random random = new Random();
-                productToAdd.put(type.getConstructor().newInstance(), random.nextInt(10) + 1);
-
-            } catch (InstantiationException | NoSuchMethodException | InvocationTargetException |
-                     IllegalAccessException e) {
-                throw new RuntimeException(e);
+                Category category = type.getConstructor().newInstance();
+                categoryToAdd.add(category);
+            } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException |
+                     InstantiationException e) {
+                e.printStackTrace();
             }
         }
-        return productToAdd;
+        return categoryToAdd;
     }
 }
