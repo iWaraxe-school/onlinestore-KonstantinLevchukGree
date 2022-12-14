@@ -1,5 +1,6 @@
 package pl.coherentSolutions.store.utils;
 
+import lombok.RequiredArgsConstructor;
 import org.reflections.Reflections;
 import pl.coherentSolutions.domain.Category;
 import pl.coherentSolutions.products.Product;
@@ -7,13 +8,9 @@ import pl.coherentSolutions.store.Store;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
-
+@RequiredArgsConstructor
 public class StoreHelper {
-    Store store;
-
-    public StoreHelper(Store store) {
-        this.store = store;
-    }
+    private final Store store;
 
     public void fillStoreRandomly() {
 
@@ -28,6 +25,7 @@ public class StoreHelper {
             this.store.addCategoryToStore(category);
         }
     }
+
     private static Set<Category> createProductListToAdd() {
         Set<Category> categoryToAdd = new HashSet<>();
 
