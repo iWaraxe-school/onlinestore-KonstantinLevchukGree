@@ -19,12 +19,14 @@ public class CreateOrder extends Thread {
     @SneakyThrows
     @Override
     public void run() {
+        log.info("Thread is running, name: "+Thread.currentThread().getName());
         log.info("CreateOrder started");
         int threadSleep = new Random().nextInt(30);
         log.info("Wait " + threadSleep + " seconds");
         TimeUnit.SECONDS.sleep(threadSleep);
         Store.purchasedProducts.addAll(0, selectedProducts);
         log.info("Products added Order");
+        System.out.println("Products added");
         Store.getPurchasedProducts().forEach(System.out::println);
         log.info("CreateOrder ended");
     }

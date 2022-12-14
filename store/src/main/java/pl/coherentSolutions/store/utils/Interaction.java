@@ -19,10 +19,6 @@ import static pl.coherentSolutions.store.constant.SortKey.*;
 public class Interaction {
     private final SortHelper sortHelper;
 
-   /* public Interaction(SortHelper sortHelper) {
-        this.sortHelper = sortHelper;
-    }*/
-
     @SneakyThrows
     public void runInteraction() {
         printLabelStore();
@@ -56,7 +52,7 @@ public class Interaction {
                         }
                     }
                     System.out.println(selectedProducts);
-                    log.info("Start create new Thread");
+                    log.info("Start new thread");
                     new CreateOrder(selectedProducts).start();
                     printInfo();
                     break;
