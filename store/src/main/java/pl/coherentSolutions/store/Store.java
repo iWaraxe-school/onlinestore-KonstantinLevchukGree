@@ -6,6 +6,7 @@ import pl.coherentSolutions.products.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class Store {
@@ -14,7 +15,7 @@ public class Store {
     private final List<Category> categoryList;
     @Getter
 
-    public static List<Product> purchasedProducts = new ArrayList<>();
+    public static CopyOnWriteArrayList<Product> purchasedProducts = new CopyOnWriteArrayList<>();
 
     private Store() {
         categoryList = new ArrayList<>();
