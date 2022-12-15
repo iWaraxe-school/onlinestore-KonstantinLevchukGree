@@ -1,24 +1,30 @@
 package pl.coherentSolutions.store.utils;
 
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import pl.coherentSolutions.products.Product;
 import pl.coherentSolutions.store.constant.CommandKey;
+import pl.coherentSolutions.store.threads.CreateOrder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 import static pl.coherentSolutions.store.constant.SortKey.*;
 
+@Slf4j
+@RequiredArgsConstructor
+
 public class Interaction {
-    SortHelper sortHelper;
+    private final SortHelper sortHelper;
 
-    public Interaction(SortHelper sortHelper) {
-        this.sortHelper = sortHelper;
-    }
-
+    @SneakyThrows
     public void runInteraction() {
         printLabelStore();
-        Boolean flag = true;
-        while (flag) {
+        boolean flagFirst = true;
+        boolean flagSecond = true;
+        while (flagFirst) {
             Scanner scanner = new Scanner(System.in);
             String command = scanner.nextLine();
             switch (command) {
@@ -34,8 +40,24 @@ public class Interaction {
                     sortHelper.printListProduct(sortedTop);
                     printInfo();
                     break;
+                case "create order":
+                    List<Product> selectedProducts = new ArrayList<>();
+                    while (flagSecond) {
+                        printCreateOrder();
+                        String productName = scanner.nextLine();
+                        if ("stop".equals(productName)) {
+                            flagSecond = false;
+                        } else {
+                            selectedProducts.addAll(0, sortHelper.findProducts(productName));
+                        }
+                    }
+                    System.out.println(selectedProducts);
+                    log.info("Start new thread");
+                    new CreateOrder(selectedProducts).start();
+                    printInfo();
+                    break;
                 case "quit":
-                    flag = false;
+                    flagFirst = false;
                     printLabelQuit();
                     break;
                 default:
@@ -45,7 +67,7 @@ public class Interaction {
     }
 
     private void printLabelStore() {
-        System.out.println("Welcome to online store\nCommands:\n" + CommandKey.SORT.getKey() + "\n" + CommandKey.TOP.getKey() + "\n" + CommandKey.QUIT.getKey());
+        System.out.println("Welcome to online store\nCommands:\n" + CommandKey.SORT.getKey() + "\n" + CommandKey.TOP.getKey() + "\n" + CommandKey.QUIT.getKey() + "\n" + CommandKey.CREATE_ORDER.getKey());
     }
 
     private void printLabelSort() {
@@ -61,6 +83,10 @@ public class Interaction {
     }
 
     private void printInfo() {
-        System.out.println("Enter command:\n" + CommandKey.SORT.getKey() + "\n" + CommandKey.TOP.getKey() + "\n" + CommandKey.QUIT.getKey());
+        System.out.println("Enter command:\n" + CommandKey.SORT.getKey() + "\n" + CommandKey.TOP.getKey() + "\n" + CommandKey.QUIT.getKey() + "\n" + CommandKey.CREATE_ORDER.getKey());
+    }
+
+    private void printCreateOrder() {
+        System.out.println("Enter product 'name' or '" + CommandKey.STOP.getKey() + "' to exit");
     }
 }

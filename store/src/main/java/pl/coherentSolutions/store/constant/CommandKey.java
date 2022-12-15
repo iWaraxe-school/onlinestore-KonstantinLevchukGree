@@ -8,7 +8,9 @@ public enum CommandKey {
 
     SORT("sort"),
     TOP("top"),
-    QUIT("quit");
+    QUIT("quit"),
+    STOP("stop"),
+    CREATE_ORDER("create order");
 
     private final String getKey;
 

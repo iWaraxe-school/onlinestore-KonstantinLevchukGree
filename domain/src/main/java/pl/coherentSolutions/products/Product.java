@@ -1,6 +1,10 @@
 package pl.coherentSolutions.products;
 
+import lombok.Getter;
+
+@Getter
 public class Product {
+
     private String name;
     private double price;
     private double rate;
@@ -39,18 +43,6 @@ public class Product {
             Product.this.rate = this.rate;
             return Product.this;
         }
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public double getRate() {
-        return rate;
     }
 
     @Override

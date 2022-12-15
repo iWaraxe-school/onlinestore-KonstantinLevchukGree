@@ -1,5 +1,6 @@
 package pl.coherentSolutions.store.utils;
 
+import lombok.RequiredArgsConstructor;
 import pl.coherentSolutions.products.Product;
 import pl.coherentSolutions.store.Store;
 
@@ -12,16 +13,14 @@ import java.util.stream.Collectors;
 import static pl.coherentSolutions.store.constant.XmlKey.ASC;
 import static pl.coherentSolutions.store.constant.XmlKey.DESC;
 
+@RequiredArgsConstructor
 public class SortHelper {
-    Store store;
+    private final Store store;
 
     public List<Product> getProductList() {
         return store.getAllProducts();
     }
 
-    public SortHelper(Store store) {
-        this.store = store;
-    }
 
     public List<Product> sortedProductList() {
         List<Product> allProduct = store.getAllProducts();
@@ -81,6 +80,17 @@ public class SortHelper {
         List<Product> allProduct = store.getAllProducts();
         allProduct.sort(Comparator.comparing(Product::getPrice).reversed());
         return allProduct.stream().limit(amount).collect(Collectors.toList());
+    }
+
+    public List<Product> findProducts(String productName) {
+        List<Product> foundProducts = new ArrayList<>();
+        List<Product> allProducts = store.getAllProducts();
+        for (Product product : allProducts) {
+            if (product.getName().equals(productName)) {
+                foundProducts.add(product);
+            }
+        }
+        return foundProducts;
     }
 
     public void printListProduct(List<Product> productList) {
