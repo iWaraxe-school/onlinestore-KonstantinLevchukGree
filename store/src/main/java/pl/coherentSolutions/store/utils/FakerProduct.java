@@ -6,7 +6,6 @@ public class FakerProduct {
 
     private static final Faker faker = new Faker();
 
-
     public static String getProductNameBike() {
         return faker.esports().game();
     }

@@ -2,10 +2,7 @@ package pl.coherentSolutions.consoleApp;
 
 import lombok.extern.slf4j.Slf4j;
 import pl.coherentSolutions.store.Store;
-import pl.coherentSolutions.store.threads.CleanupPurchasedProducts;
 import pl.coherentSolutions.store.utils.DBHelper;
-import pl.coherentSolutions.store.utils.Interaction;
-import pl.coherentSolutions.store.utils.SortHelper;
 import pl.coherentSolutions.store.utils.StoreHelper;
 
 @Slf4j
@@ -13,25 +10,27 @@ import pl.coherentSolutions.store.utils.StoreHelper;
 public class StoreApp {
 
     public static void main(String[] args) {
-        DBHelper dbHelper = new DBHelper();
-        dbHelper.connectDB();
-        dbHelper.createCategoryTable();
-        dbHelper.createProductTable();
-        dbHelper.clearDB();
-
         log.info("Start new thread, name: " + Thread.currentThread().getName());
         Store store = Store.getInstance();
 
         log.info("Start new thread");
-        new CleanupPurchasedProducts().start();
+        // new CleanupPurchasedProducts().start();
 
         StoreHelper storeHelper = new StoreHelper(store);
-        SortHelper sortHelper = new SortHelper(store);
-
+        //SortHelper sortHelper = new SortHelper(store);
         storeHelper.fillStoreRandomly();
-        sortHelper.printListProduct(sortHelper.getProductList());
+        //sortHelper.printListProduct(sortHelper.getProductList());
 
-        Interaction interaction = new Interaction(sortHelper);
-        interaction.runInteraction();
+        //Interaction interaction = new Interaction(sortHelper);
+        //interaction.runInteraction();
+
+        DBHelper dbHelper = new DBHelper();
+        dbHelper.connectDB();
+        dbHelper.createCategoryTable();
+        dbHelper.createProductTable();
+        dbHelper.addProductsToDataBase();
+        dbHelper.printProductsFromDataBase();
+        dbHelper.clearDB();
+        dbHelper.closeConnection();
     }
 }

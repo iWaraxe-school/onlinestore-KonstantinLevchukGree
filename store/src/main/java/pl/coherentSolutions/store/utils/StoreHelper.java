@@ -12,6 +12,8 @@ import java.util.*;
 public class StoreHelper {
     private final Store store;
 
+
+
     public void fillStoreRandomly() {
 
         Set<Category> categorySet = createProductListToAdd();
@@ -26,7 +28,7 @@ public class StoreHelper {
         }
     }
 
-    private static Set<Category> createProductListToAdd() {
+    public static Set<Category> createProductListToAdd() {
         Set<Category> categoryToAdd = new HashSet<>();
 
         Reflections reflections = new Reflections("pl.coherentSolutions.domain.categories");
