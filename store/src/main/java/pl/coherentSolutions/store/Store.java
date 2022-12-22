@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 public class Store {
 
     private static volatile Store instance;
+    @Getter
+
     private final List<Category> categoryList;
     @Getter
 
